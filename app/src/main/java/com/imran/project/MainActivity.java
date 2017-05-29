@@ -1,7 +1,9 @@
 package com.imran.project;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Bitmap bitmap = BitmapFactory.decodeResource(
                 getApplicationContext().getResources(),
-                R.drawable.number_plate
+                R.drawable.trivia
         );
         imageView.setImageBitmap(bitmap);
 
@@ -80,5 +82,15 @@ public class MainActivity extends AppCompatActivity {
                 }
                 txtResult.setText(stringBuilder.toString());
             }
+    }
+
+    public void dispatchTakePictureIntent(View view) {
+
+        if (view.getId() == R.id.picture) {
+            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
+            startActivityForResult(intent, 1);
+            onActivityResult(1,1,intent);
+        }
     }
 }
