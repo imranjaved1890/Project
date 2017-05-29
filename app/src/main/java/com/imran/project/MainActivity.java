@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
         final Bitmap bitmap = BitmapFactory.decodeResource(
                 getApplicationContext().getResources(),
-                R.drawable.trivia
+                R.drawable.long_text
         );
         imageView.setImageBitmap(bitmap);
 
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public void meth(View view) {
         final Bitmap bitmap = BitmapFactory.decodeResource(
                 getApplicationContext().getResources(),
-                R.drawable.number_plate);
+                R.drawable.long_text);
 
 
             TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
