@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     Button btnProcess;
     TextView txtResult;
+    Button importimage;
+    private static final int PICK_IMAGE = 1;
+    Bitmap imageBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         imageView = (ImageView)findViewById(R.id.image_view);
         btnProcess = (Button)findViewById(R.id.button_process);
         txtResult = (TextView)findViewById(R.id.textview_result);
+        importimage = (Button)findViewById(R.id.import_image);
 
         final Bitmap bitmap = BitmapFactory.decodeResource(
                 getApplicationContext().getResources(),
@@ -63,9 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void meth(View view) {
-        final Bitmap bitmap = BitmapFactory.decodeResource(
-                getApplicationContext().getResources(),
-                R.drawable.long_text);
+        final Bitmap bitmap = BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.long_text);
 
 
             TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 Frame frame = new Frame.Builder().setBitmap(bitmap).build();
                 SparseArray<TextBlock> items = textRecognizer.detect(frame);
                 StringBuilder stringBuilder = new StringBuilder();
+
                 for (int i = 0; i < items.size(); ++i) {
                     TextBlock item = items.valueAt(i);
                     stringBuilder.append(item.getValue());
@@ -90,7 +93,24 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI.getPath());
             startActivityForResult(intent, 1);
-            onActivityResult(1,1,intent);
+            //onActivityResult(1,1,intent);
+        }
+    }
+
+    public void openGallery(View view) {
+        Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+        startActivityForResult(gallery, PICK_IMAGE);
+        onActivityResult(1,1,gallery);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            imageBitmap = (Bitmap) extras.get("data");
+
+            //image.setImageBitmap(imageBitmap);
         }
     }
 }

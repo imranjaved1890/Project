@@ -27,10 +27,19 @@
                 android:scaleType="centerInside" />
 
             <Button
-                android:id="@+id/button_process"
+                android:id="@+id/import_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/image_view"
+                android:layout_gravity="center_horizontal"
+                android:text="Open Gallery"
+                android:onClick="openGallery"/>
+
+            <Button
+                android:id="@+id/button_process"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/import_image"
                 android:layout_gravity="center_horizontal"
                 android:onClick="meth"
                 android:text="EXTRACT TEXT" />
