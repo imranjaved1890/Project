@@ -74,8 +74,10 @@ public class MainActivity extends AppCompatActivity {
             }else {
 
                 TextRecognizer textRecognizer = new TextRecognizer.Builder(getApplicationContext()).build();
-                if (!textRecognizer.isOperational())
+                if (!textRecognizer.isOperational()){
                     Log.e("ERROR", "Detector dependencies are not yet available");
+                    Toast.makeText(this, "Unable to extract text", Toast.LENGTH_SHORT).show();
+                }
                 else {
                     Frame frame = new Frame.Builder().setBitmap(bitmap).build();
                     SparseArray<TextBlock> items = textRecognizer.detect(frame);
@@ -86,7 +88,10 @@ public class MainActivity extends AppCompatActivity {
                         stringBuilder.append(item.getValue());
                         stringBuilder.append("\n");
                     }
-                    txtResult.setText(stringBuilder.toString());
+                    if(stringBuilder.toString()!=null) {
+                        txtResult.setText(stringBuilder.toString());
+                    }else
+                        Toast.makeText(this, "Unable to extract text", Toast.LENGTH_SHORT).show();
                 }
             }
     }
@@ -128,8 +133,7 @@ public class MainActivity extends AppCompatActivity {
             Uri selectedImage = data.getData();
             String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-            Cursor cursor = getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
+            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
             cursor.moveToFirst();
 
             int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
